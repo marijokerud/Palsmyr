@@ -5,4 +5,11 @@
 .Rdata
 .httr-oauth
 .DS_Store
-.quarto
+#Exluding files
+*.xlsx 
+*.docx
+*.pdf
+*.png
+*.jpeg
+*.tiff
+*.psd
