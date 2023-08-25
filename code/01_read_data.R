@@ -18,7 +18,7 @@ layerSP <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xl
 
 structureline <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Markslag", col_names = TRUE)
 permafrostdepth <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Teledyp", col_names = TRUE)
-layerSTL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
+layerPSL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
 ant_sprekker <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "antall-sprekker", col_names = TRUE)
 bredde_sprekker <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "bredde-sprekker", col_names = TRUE)
 
@@ -51,8 +51,6 @@ palslineSP <- palslineSP %>%
   select(lineID, palsstructure) %>% 
   unique()
 
-
-
 #ADD NEW variables
 speciesline <- speciesline_raw %>%
   rename(area= Omr.info, site=Navn, year=År, line=Lj.nr, segment=Linje.del, pinpoint=Punkt) %>% 
@@ -64,8 +62,36 @@ speciesline <- speciesline_raw %>%
 
 write.xlsx(speciesline, "data/speciesline.xlsx")
 
+
+
 ###STRUCTURE LINES###
 #CLEAN DATA SET
+
+structurelinePSL <- structureline %>% 
+  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
+  unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
+  select(Markslag) %>% 
+  unique()
+
+#Create matrix for pals
+palsstructurePSL1 <- matrix(rep(c("palsring", "palsring",
+                                "myrflate", "myrflate",
+                                "palsplatå", "palsplatå", 
+                                "dam", "dam", 
+                                "brottkant", "brottkant", 
+                                "lagg", "lagg", 
+                                "tue", "myrflate", 
+                                "pals", "pals", 
+                                "pøl", "pøl", 
+                                "nypals", "pals", 
+                                "myrflate/palsring", "myrflate", 
+                                "dam-flik", "dam", 
+                                "NA", "NA", 
+                                "myrflate, lagg", "myrflate", 
+                                "palskant", "pals", 
+                                "NN", "NN"), times=1), ncol=2, byrow=TRUE)
+colnames(palsstructurePSL1) <- c('Markslag', 'palsstructure')
+palsstructurePSL1 <- as.data.frame(palsstructurePSL1)
 
 
 
