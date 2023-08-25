@@ -115,7 +115,9 @@ structurelinePSL <- structureline %>%
   rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
   left_join(palsstructurePSL1, by = "Markslag") %>% 
-  left_join(palsstructurePSL2, by = "Markslag")
+  left_join(palsstructurePSL2, by = "Markslag") %>% 
+  select(year) %>% 
+  unique()
 
 
 ###PERMAFROST DEPTH###
