@@ -67,9 +67,7 @@ write.xlsx(speciesline, "data/speciesline.xlsx")
 ###STRUCTURE LINES###
 #CLEAN DATA SET
 
-structurelinePSL <- structureline %>% 
-  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
-  unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
+structureline %>%
   select(Markslag) %>% 
   unique()
 
@@ -90,8 +88,36 @@ palsstructurePSL1 <- matrix(rep(c("palsring", "palsring",
                                 "myrflate, lagg", "myrflate", 
                                 "palskant", "pals", 
                                 "NN", "NN"), times=1), ncol=2, byrow=TRUE)
-colnames(palsstructurePSL1) <- c('Markslag', 'palsstructure')
+colnames(palsstructurePSL1) <- c('Markslag', 'palsstructure1')
 palsstructurePSL1 <- as.data.frame(palsstructurePSL1)
+
+palsstructurePSL2 <- matrix(rep(c("palsring", "pals",
+                                  "myrflate", "myr",
+                                  "palsplatå", "pals", 
+                                  "dam", "dam", 
+                                  "brottkant", "pals", 
+                                  "lagg", "myr", 
+                                  "tue", "myr", 
+                                  "pals", "pals", 
+                                  "pøl", "pals", 
+                                  "nypals", "pals", 
+                                  "myrflate/palsring", "myr", 
+                                  "dam-flik", "dam", 
+                                  "NA", "NA", 
+                                  "myrflate, lagg", "myr", 
+                                  "palskant", "pals", 
+                                  "NN", "NN"), times=1), ncol=2, byrow=TRUE)
+colnames(palsstructurePSL2) <- c('Markslag', 'palsstructure2')
+palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
+
+
+structurelinePSL <- structureline %>% 
+  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
+  unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
+  left_join(palsstructurePSL1, by = "Markslag")
+
+
+
 
 
 
