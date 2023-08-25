@@ -114,11 +114,16 @@ palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
 structurelinePSL <- structureline %>% 
   rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
-  left_join(palsstructurePSL1, by = "Markslag")
+  left_join(palsstructurePSL1, by = "Markslag") %>% 
+  left_join(palsstructurePSL2, by = "Markslag")
 
 
-
-
+###PERMAFROST DEPTH###
+#CLEAN DATA SET
+permafrostdepth <- permafrostdepth %>% 
+  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del", depth ="Teledyp", height = "Høyde") %>% 
+  unite("lineID", line:segment, sep = ".", remove = FALSE)
+  
 
 
 #Did not need after all, use Sys.setlocale to handle ÆØÅ
