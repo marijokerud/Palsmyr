@@ -8,7 +8,7 @@ data_summary_line <- structurelinePSL %>%
 data_summary_segment <- structurelinePSL %>%
   select(site, line, segment) %>% 
   unique() %>% 
-  mutate(no = 1) %>% 
+  summarise(tot = sum(no))
   group_by(site, line) %>% 
   summarise(tot = sum(no))
   

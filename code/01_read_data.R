@@ -1,5 +1,4 @@
 #LOAD DATA
-install.packages("Rtools")
 library(readxl)
 library(xlsx)
 library(tidyverse)
@@ -18,9 +17,65 @@ layerSP <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xl
 
 structureline <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Markslag", col_names = TRUE)
 permafrostdepth <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Teledyp", col_names = TRUE)
-layerPSL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
+layerPSL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
 ant_sprekker <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "antall-sprekker", col_names = TRUE)
 bredde_sprekker <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "bredde-sprekker", col_names = TRUE)
+
+
+###STRUCTURE LINES###
+#CLEAN DATA SET
+
+structureline %>%
+  select(Markslag) %>% 
+  unique()
+
+#Create matrix for pals
+palsstructurePSL1 <- matrix(rep(c("palsring", "palsring",
+                                  "myrflate", "myrflate",
+                                  "palsplatå", "palsplatå", 
+                                  "dam", "dam", 
+                                  "brottkant", "brottkant", 
+                                  "lagg", "lagg", 
+                                  "tue", "myrflate", 
+                                  "pals", "pals", 
+                                  "pøl", "pøl", 
+                                  "nypals", "pals", 
+                                  "myrflate/palsring", "myrflate", 
+                                  "dam-flik", "dam", 
+                                  "NA", "NA", 
+                                  "myrflate, lagg", "myrflate", 
+                                  "palskant", "pals", 
+                                  "NN", "NN"), times=1), ncol=2, byrow=TRUE)
+colnames(palsstructurePSL1) <- c('Markslag', 'palsstructure1')
+palsstructurePSL1 <- as.data.frame(palsstructurePSL1)
+
+palsstructurePSL2 <- matrix(rep(c("palsring", "pals",
+                                  "myrflate", "myr",
+                                  "palsplatå", "pals", 
+                                  "dam", "dam", 
+                                  "brottkant", "pals", 
+                                  "lagg", "myr", 
+                                  "tue", "myr", 
+                                  "pals", "pals", 
+                                  "pøl", "pals", 
+                                  "nypals", "pals", 
+                                  "myrflate/palsring", "myr", 
+                                  "dam-flik", "dam", 
+                                  "NA", "NA", 
+                                  "myrflate, lagg", "myr", 
+                                  "palskant", "pals", 
+                                  "NN", "NN"), times=1), ncol=2, byrow=TRUE)
+colnames(palsstructurePSL2) <- c('Markslag', 'palsstructure2')
+palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
+
+structurelinePSL <- structureline %>% 
+  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
+  unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
+  left_join(palsstructurePSL1, by = "Markslag") %>% 
+  left_join(palsstructurePSL2, by = "Markslag") %>% 
+  select(site, year, line) %>% 
+  unique()
+
 
 ###SPECIES LINES###
 #CLEAN DATA SET
@@ -62,62 +117,6 @@ speciesline <- speciesline_raw %>%
 
 write.xlsx(speciesline, "data/speciesline.xlsx")
 
-
-
-###STRUCTURE LINES###
-#CLEAN DATA SET
-
-structureline %>%
-  select(Markslag) %>% 
-  unique()
-
-#Create matrix for pals
-palsstructurePSL1 <- matrix(rep(c("palsring", "palsring",
-                                "myrflate", "myrflate",
-                                "palsplatå", "palsplatå", 
-                                "dam", "dam", 
-                                "brottkant", "brottkant", 
-                                "lagg", "lagg", 
-                                "tue", "myrflate", 
-                                "pals", "pals", 
-                                "pøl", "pøl", 
-                                "nypals", "pals", 
-                                "myrflate/palsring", "myrflate", 
-                                "dam-flik", "dam", 
-                                "NA", "NA", 
-                                "myrflate, lagg", "myrflate", 
-                                "palskant", "pals", 
-                                "NN", "NN"), times=1), ncol=2, byrow=TRUE)
-colnames(palsstructurePSL1) <- c('Markslag', 'palsstructure1')
-palsstructurePSL1 <- as.data.frame(palsstructurePSL1)
-
-palsstructurePSL2 <- matrix(rep(c("palsring", "pals",
-                                  "myrflate", "myr",
-                                  "palsplatå", "pals", 
-                                  "dam", "dam", 
-                                  "brottkant", "pals", 
-                                  "lagg", "myr", 
-                                  "tue", "myr", 
-                                  "pals", "pals", 
-                                  "pøl", "pals", 
-                                  "nypals", "pals", 
-                                  "myrflate/palsring", "myr", 
-                                  "dam-flik", "dam", 
-                                  "NA", "NA", 
-                                  "myrflate, lagg", "myr", 
-                                  "palskant", "pals", 
-                                  "NN", "NN"), times=1), ncol=2, byrow=TRUE)
-colnames(palsstructurePSL2) <- c('Markslag', 'palsstructure2')
-palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
-
-
-structurelinePSL <- structureline %>% 
-  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
-  unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
-  left_join(palsstructurePSL1, by = "Markslag") %>% 
-  left_join(palsstructurePSL2, by = "Markslag") %>% 
-  select(year) %>% 
-  unique()
 
 
 ###PERMAFROST DEPTH###
