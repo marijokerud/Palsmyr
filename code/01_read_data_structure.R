@@ -61,9 +61,11 @@ palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
 structurelinePSL <- structureline %>% 
   rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
+  filter(!row_number() %in% c(7419)) %>%  #remove lineID=32.151 in 2019 because of NA
   left_join(palsstructurePSL1, by = "Markslag") %>% 
   left_join(palsstructurePSL2, by = "Markslag") %>% 
-  mutate(overdisp = 1:13379)
+  mutate(overdisp = 1:13378)
+  #mutate(pals = rep(c("pals", "yes", "myr", "no")))
   #select(site, year, line) %>% 
   #unique()
 
