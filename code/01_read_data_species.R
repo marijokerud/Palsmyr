@@ -24,6 +24,10 @@ species_name <- speciesline_raw %>%
   select(Art) %>% 
   distinct() 
 
+species_namePSL <- layerPSL %>% 
+  select(Artgr) %>% 
+  distinct()
+
 new_name <- new_name %>% 
   mutate(Art = str_replace_all(string = Art, 
                                pattern = "[[:space:]]", 
