@@ -18,6 +18,4 @@ data_summary_segment <- structurelinePSL %>%
     mutate(no = 1) %>%
     group_by(site) %>% 
     summarise(tot = sum(no))
-  group_by(site, line) %>% 
-    summarise(tot = sum(no))
   
