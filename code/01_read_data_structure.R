@@ -63,6 +63,7 @@ structurelinePSL <- structureline %>%
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
   left_join(palsstructurePSL1, by = "Markslag") %>% 
   left_join(palsstructurePSL2, by = "Markslag") %>% 
-  select(site, year, line) %>% 
-  unique()
+  mutate(overdisp = 1:13379)
+  #select(site, year, line) %>% 
+  #unique()
 
