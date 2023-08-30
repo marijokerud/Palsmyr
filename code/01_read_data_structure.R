@@ -65,7 +65,8 @@ structurelinePSL <- structureline %>%
   left_join(palsstructurePSL1, by = "Markslag") %>% 
   left_join(palsstructurePSL2, by = "Markslag") %>%
   mutate(site = case_when(Site == 'Dovre, Haukskardmyrin' ~ "Haukskardmyrin",
-                          Site == 'Dovre, Haugtjørnin' ~ "Haugtjørnin")) %>% 
+                          Site == 'Dovre, Haugtjørnin' ~ "Haugtjørnin",
+                          .default = as.character(Site))) %>% 
   mutate(year = case_when(Year == '2005' ~ 0,
                           Year == '2010' ~ 1,
                           Year == '2015' ~ 2,
