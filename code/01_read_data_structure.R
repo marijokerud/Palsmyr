@@ -59,13 +59,32 @@ colnames(palsstructurePSL2) <- c('Markslag', 'palsstructure2')
 palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
 
 structurelinePSL <- structureline %>% 
-  rename(area= "Omr-info", site=Navn, year=År, line="Lj-nr", segment="Linje-del") %>% 
+  rename(area= "Omr-info", site=Navn, Year=År, line="Lj-nr", segment="Linje-del") %>% 
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
-  filter(!row_number() %in% c(7419)) %>%  #remove lineID=32.151 in 2019 because of NA
+  filter(!row_number() %in% c(7419, 10616)) %>%  #remove lineID=32.151 in 2019 because of NA
   left_join(palsstructurePSL1, by = "Markslag") %>% 
   left_join(palsstructurePSL2, by = "Markslag") %>% 
-  mutate(overdisp = 1:13378)
-  #mutate(pals = rep(c("pals", "yes", "myr", "no")))
-  #select(site, year, line) %>% 
-  #unique()
+  mutate(year = case_when(Year == '2005' ~ 0,
+                          Year == '2010' ~ 1,
+                          Year == '2015' ~ 2,
+                          Year == '2020' ~ 3,
+                          Year == '2004' ~ 0,
+                          Year == '2009' ~ 1,
+                          Year == '2014' ~ 2,
+                          Year == '2019' ~ 3, 
+                          Year == '2006' ~ 0,
+                          Year == '2011' ~ 1,
+                          Year == '2016' ~ 2,
+                          Year == '2021' ~ 3, 
+                          Year == '2008' ~ 0,
+                          Year == '2013' ~ 1,
+                          Year == '2018' ~ 2)) %>%
+  mutate(pals = case_when(palsstructure2 == 'pals' ~ 1,
+                          palsstructure2 == 'myr' ~ 0,
+                          palsstructure2 == 'dam' ~ 0)) %>% 
+  mutate(overdisp = 1:13377)
+
+years <- structurelinePSL %>% 
+  select(site, year) %>% 
+  unique()
 
