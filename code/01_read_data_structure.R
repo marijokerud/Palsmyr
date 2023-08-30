@@ -59,11 +59,13 @@ colnames(palsstructurePSL2) <- c('Markslag', 'palsstructure2')
 palsstructurePSL2 <- as.data.frame(palsstructurePSL2)
 
 structurelinePSL <- structureline %>% 
-  rename(area= "Omr-info", site=Navn, Year=År, line="Lj-nr", segment="Linje-del") %>% 
+  rename(area= "Omr-info", Site=Navn, Year=År, line="Lj-nr", segment="Linje-del") %>% 
   unite("lineID", line:segment, sep = ".", remove = FALSE) %>% 
   filter(!row_number() %in% c(7419, 10616)) %>%  #remove lineID=32.151 in 2019 because of NA
   left_join(palsstructurePSL1, by = "Markslag") %>% 
-  left_join(palsstructurePSL2, by = "Markslag") %>% 
+  left_join(palsstructurePSL2, by = "Markslag") %>%
+  mutate(site = case_when(Site == 'Dovre, Haukskardmyrin' ~ "Haukskardmyrin",
+                          Site == 'Dovre, Haugtjørnin' ~ "Haugtjørnin")) %>% 
   mutate(year = case_when(Year == '2005' ~ 0,
                           Year == '2010' ~ 1,
                           Year == '2015' ~ 2,
