@@ -64,8 +64,8 @@ structurelinePSL <- structureline %>%
   filter(!row_number() %in% c(7419, 10616)) %>%  #remove lineID=32.151 in 2019 because of NA
   left_join(palsstructurePSL1, by = "Markslag") %>% 
   left_join(palsstructurePSL2, by = "Markslag") %>%
-  mutate(site = case_when(Site == 'Dovre, Haukskardmyrin' ~ "Haukskardmyrin",
-                          Site == 'Dovre, Haugtjørnin' ~ "Haugtjørnin",
+  mutate(site = case_when(Site == 'Dovre, Haukskardmyrin' ~ "DovreHaukskardmyrin",
+                          Site == 'Dovre, Haugtjørnin' ~ "DovreHaugtjørnin",
                           .default = as.character(Site))) %>% 
   mutate(year = case_when(Year == '2005' ~ 0,
                           Year == '2010' ~ 1,
