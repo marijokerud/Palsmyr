@@ -1,22 +1,22 @@
 structurelinePSL
 library(Rcurl)
 library(lme4)
-library(ggplot2)
+
 
 #structurelinePSL$pals = factor(structurelinePSL$pals)
 #summary(structurelinePSL$pals) #check ratio
 
-m1 <- glmer(pals ~ year * site + (1 | line), 
+m1 <- glmer(pals ~ year * site + (1 | line), #plotted lines show no interaction, slope in same direction
           family = binomial(link = "logit"),
           data = structurelinePSL)
-summary(m1)
+summary(m1) 
 
 m2 <- glmer(pals ~ year + site + (1 | line), 
             family = binomial(link = "logit"),
             data = structurelinePSL)
 summary(m2)
 
-m3 <- glmer(pals ~ year + (1 | line), 
+m3 <- glmer(pals ~ year + site + (1 | line) + (1 | overdisp), 
             family = binomial(link = "logit"),
             data = structurelinePSL)
 summary(m3)
