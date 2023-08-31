@@ -1,5 +1,6 @@
 library(ggplot2)
 library(ggh4x)
+library(wesanderson)
 
 test<-wes_palette("Darjeeling1", n=5)
 strip <- strip_themed(background_x = elem_list_rect(fill = test)) 
