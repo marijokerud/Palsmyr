@@ -92,7 +92,7 @@ structurelinePSL <- structureline %>%
                           palsstructure2 == 'myr' ~ 0,
                           palsstructure2 == 'dam' ~ 1)) %>% 
   mutate(overdisp = 1:13377) %>% 
-  select(area, site, Year, year, lineID, line, segment, Markslag, palsstructure1, palsstructure2, pals, overdisp)
+  select(area, site, Year, year, lineID, line, segment, Markslag, palsstructure1, palsstructure2, pals, myr, dam, overdisp)
 
 years <- structurelinePSL %>% 
   select(site, year) %>% 
