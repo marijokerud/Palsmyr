@@ -70,6 +70,7 @@ AIC(logLik(m2))
 AIC(logLik(m3))
 AIC(logLik(m4))
 
+
 #DAM
 #structurelinePSL$dam = factor(structurelinePSL$dam)
 #summary(structurelinePSL$dam) #check ratio
