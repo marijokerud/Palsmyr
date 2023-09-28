@@ -36,24 +36,33 @@ AIC(logLik(m4)) # AIC is higher than m1, m4 generated a warning because the mode
 #structurelinePSL$myr = factor(structurelinePSL$myr)
 #summary(structurelinePSL$myr) #check ratio
 
-m1 <- glmer(myr ~ year * site + (1 | line), #plotted lines show no interaction, slope in same direction
+m1 <- glmer(myr ~ year * site + (1|line), #plotted lines show no interaction, slope in same direction
             family = binomial(link = "logit"),
-            data = structurelinePSL)
-summary(m1) 
+            data = structurelinePSL,
+            control=glmerControl(optimizer="bobyqa")) #got following error message: optimizer (Nelder_Mead) convergence code: 0 (OK)
+summary(m1)                                           #Model failed to converge with max|grad| = 0.0027761 (tol = 0.002, component 1)
+                                                      #Works with bobyqa
 
-m2 <- glmer(myr ~ year + site + (1 | line), 
+m2 <- glmer(myr ~ year + site + (1|line), 
             family = binomial(link = "logit"),
             data = structurelinePSL)
 summary(m2)
 
-m3 <- glmer(myr ~ year + site + (1 | line) + (1 | overdisp), 
+m2 <- glmer(myr ~ year + site + (1|line), 
+            family = binomial(link = "logit"),
+            data = structurelinePSL)
+summary(m2)
+
+
+m3 <- glmer(myr ~ year + site + (1|line) + (1 | overdisp), 
             family = binomial(link = "logit"),
             data = structurelinePSL)
 summary(m3)
 
-m4 <- glmer(myr ~ year * site + (1 | line) + (1 | overdisp), 
+m4 <- glmer(myr ~ year * site + (1|line) + (1 | overdisp), 
             family = binomial(link = "logit"),
-            data = structurelinePSL)
+            data = structurelinePSL,
+            control=glmerControl(optimizer="bobyqa"))
 summary(m4)
 
 AIC(logLik(m1))
