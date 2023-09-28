@@ -14,8 +14,7 @@ speciesline_raw <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artsl
 new_name <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "new_name", col_names = TRUE)
 palslineSP <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "Artl_Markslag", col_names = TRUE)
 layerSP <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_artslinjer.xlsx", sheet = "Arltl_sjikt", col_names = TRUE)
-
-layerPSL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
+#layerPSL <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Sjikt", col_names = TRUE)
 
 
 #CLEAN DATA SET

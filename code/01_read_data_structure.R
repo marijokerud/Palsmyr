@@ -4,10 +4,10 @@ library(xlsx)
 library(tidyverse)
 library(labdsv)
 
-Sys.setlocale()
+#Sys.setlocale()
 Sys.setlocale("LC_ALL", "Norwegian") #works with æøå or use "no_NB.utf8"
 
-info_dataset <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_info.xlsx", sheet = "Pals-lok-info", col_names = TRUE)
+#info_dataset <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_info.xlsx", sheet = "Pals-lok-info", col_names = TRUE)
 
 #IMPORT DATA
 structureline <- read_excel(path = "data/pals_database/20.2.2023_Uttrekk_strukturlinjer.xlsx", sheet = "Markslag", col_names = TRUE)
