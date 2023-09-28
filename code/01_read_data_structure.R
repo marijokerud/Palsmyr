@@ -85,6 +85,12 @@ structurelinePSL <- structureline %>%
   mutate(pals = case_when(palsstructure2 == 'pals' ~ 1,
                           palsstructure2 == 'myr' ~ 0,
                           palsstructure2 == 'dam' ~ 0)) %>% 
+  mutate(myr = case_when(palsstructure2 == 'pals' ~ 0,
+                          palsstructure2 == 'myr' ~ 1,
+                          palsstructure2 == 'dam' ~ 0)) %>% 
+  mutate(dam = case_when(palsstructure2 == 'pals' ~ 0,
+                          palsstructure2 == 'myr' ~ 0,
+                          palsstructure2 == 'dam' ~ 1)) %>% 
   mutate(overdisp = 1:13377) %>% 
   select(area, site, Year, year, lineID, line, segment, Markslag, palsstructure1, palsstructure2, pals, overdisp)
 
